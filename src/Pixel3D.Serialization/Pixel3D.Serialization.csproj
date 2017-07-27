@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A57814B6-1D0B-48BD-B512-BF8CE9000282}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pixel3D.Serialization</RootNamespace>
+    <AssemblyName>Pixel3D.Serialization</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes.cs" />
+    <Compile Include="BuiltIn\BinaryReaderWriterExtensions.cs" />
+    <Compile Include="BuiltIn\DelegateHandling\DelegateTypeInfo.cs" />
+    <Compile Include="BuiltIn\DelegateHandling\DelegateMethodInfo.cs" />
+    <Compile Include="BuiltIn\DelegateHandling\DelegateSerialization.cs" />
+    <Compile Include="BuiltIn\DelegateHandling\InvocationList.cs" />
+    <Compile Include="BuiltIn\DelegateHandling\InvocationListEnumerator.cs" />
+    <Compile Include="BuiltIn\DelegateHandling\MulticastDelegateExtensions.cs" />
+    <Compile Include="BuiltIn\SerializeArray.cs" />
+    <Compile Include="BuiltIn\SerializeDictionary.cs" />
+    <Compile Include="BuiltIn\SerializeHashSet.cs" />
+    <Compile Include="BuiltIn\SerializeLinkedList.cs" />
+    <Compile Include="BuiltIn\SerializeList.cs" />
+    <Compile Include="BuiltIn\SerializePrimitives.cs" />
+    <Compile Include="BuiltIn\SerializeQueue.cs" />
+    <Compile Include="BuiltIn\SerializeSortedDictionary.cs" />
+    <Compile Include="BuiltIn\SerializeStack.cs" />
+    <Compile Include="BuiltIn\SerializeString.cs" />
+    <Compile Include="BuiltIn\SerializeStringBuilder.cs" />
+    <Compile Include="BuiltIn\SerializeType.cs" />
+    <Compile Include="Context\Constants.cs" />
+    <Compile Include="Context\DefinitionObjectTable.cs" />
+    <Compile Include="Context\DeserializeContext.cs" />
+    <Compile Include="Context\ReferenceEqualityComparer.cs" />
+    <Compile Include="Context\SerializeContext.cs" />
+    <Compile Include="Context\SerializeContextWithStatistics.cs" />
+    <Compile Include="DelegateTypes.cs" />
+    <Compile Include="Discovery\CustomMethodDiscovery.cs" />
+    <Compile Include="Discovery\DelegateClassification.cs" />
+    <Compile Include="Discovery\DelegateDiscovery.cs" />
+    <Compile Include="Discovery\DelegateUsage.cs" />
+    <Compile Include="Discovery\ReadIL\BinaryReadOpCodeExtensions.cs" />
+    <Compile Include="Discovery\ReadIL\OpCodeExtensions.cs" />
+    <Compile Include="Discovery\ReadIL\OpCodeValues.cs" />
+    <Compile Include="Discovery\ReadIL\ResolveExtensions.cs" />
+    <Compile Include="Discovery\ReadIL\ResolveToStringExtensions.cs" />
+    <Compile Include="Discovery\TypeClassifier.cs" />
+    <Compile Include="Discovery\TypeDiscovery.cs" />
+    <Compile Include="GeneratorReports.cs" />
+    <Compile Include="Generator\DirectionEnum.cs" />
+    <Compile Include="Generator\GeneratorResult.cs" />
+    <Compile Include="Generator\GeneratorSequence.cs" />
+    <Compile Include="Generator\ILWriting\ILGenContext.cs" />
+    <Compile Include="Generator\ILWriting\Methods.cs" />
+    <Compile Include="Generator\ILWriting\TypeSerializeILGeneration.cs" />
+    <Compile Include="Generator\MethodCreator.cs" />
+    <Compile Include="Generator\MethodCreatorCreator.cs" />
+    <Compile Include="Generator\MethodInfoExtensions.cs" />
+    <Compile Include="Generator\SerializeDispatchDelegate.cs" />
+    <Compile Include="Generator\SerializerMethodGenerator.cs" />
+    <Compile Include="HashingStream.cs" />
+    <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="MemoryCompareStream.cs" />
+    <Compile Include="MethodProviders\EmptyMethodProvider.cs" />
+    <Compile Include="MethodProviders\FallbackMethodProvider.cs" />
+    <Compile Include="MethodProviders\LookupMethodProvider.cs" />
+    <Compile Include="MethodProviders\MethodProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationMethodProviders.cs" />
+    <Compile Include="Serializer.cs" />
+    <Compile Include="StaticMethodAccess.cs" />
+    <Compile Include="Static\StaticDelegateTable.cs" />
+    <Compile Include="Static\StaticDispatchTable.cs" />
+    <Compile Include="Static\StaticMethodCaches.cs" />
+    <Compile Include="Static\StaticModuleTable.cs" />
+    <Compile Include="Value128.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
