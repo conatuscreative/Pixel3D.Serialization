@@ -9,7 +9,7 @@
     <licenseUrl>https://github.com/conatuscreative/Pixel3D.Serialization/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/conatuscreative/Pixel3D.Serialization</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A high performance serialization library for the Pixel3D game engine.</description>
+    <description>A high performance serialization library with no dependencies, suitable for networked games.</description>
     <releaseNotes>Initial public release</releaseNotes>
     <copyright>(c) 2017 Conatus Creative Inc.</copyright>
     <tags>Pixel3D serialization</tags>
