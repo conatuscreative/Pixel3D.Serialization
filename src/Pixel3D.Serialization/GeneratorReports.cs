@@ -34,17 +34,17 @@ namespace Pixel3D.Serialization
             Error.Dispose();
         }
 
-        public string Directory { get; }
+        public string Directory { get; set; }
 
-        public StreamWriter Log { get; }
-        public StreamWriter TypeDiscovery { get; }
-        public StreamWriter DelegateDiscovery { get; }
-        public StreamWriter DelegateDiscoveryGrouped { get; }
-        public StreamWriter DelegateClassification { get; }
-        public StreamWriter DelegateMethods { get; }
-        public StreamWriter TypeClassification { get; }
-        public StreamWriter CustomMethodDiscovery { get; }
-        public StreamWriter Error { get; }
+        public StreamWriter Log { get; set; }
+        public StreamWriter TypeDiscovery { get; set; }
+        public StreamWriter DelegateDiscovery { get; set; }
+        public StreamWriter DelegateDiscoveryGrouped { get; set; }
+        public StreamWriter DelegateClassification { get; set; }
+        public StreamWriter DelegateMethods { get; set; }
+        public StreamWriter TypeClassification { get; set; }
+        public StreamWriter CustomMethodDiscovery { get; set; }
+        public StreamWriter Error { get; set; }
     }
 }
 
