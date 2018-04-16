@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net45;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>A high performance serialization library with no dependencies, suitable for networked games.</Description>
@@ -13,9 +13,6 @@
     <PackageReleaseNotes>v1.0.1 - add .NET Standard 2.0 support</PackageReleaseNotes>
     <Authors>Conatus Creative Inc.</Authors>
     <Company>Conatus Creative Inc.</Company>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -28,12 +25,6 @@
     </PackageReference>
     <PackageReference Include="System.Reflection.Emit.Lightweight">
       <Version>4.3.0</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-      <Version>2.7.0</Version>
     </PackageReference>
   </ItemGroup>
 
