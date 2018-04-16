@@ -39,8 +39,12 @@ namespace Pixel3D.Serialization.Generator
         {
             foreach(var typeBuilder in typeBuilders)
             {
-                typeBuilder.CreateType();
-            }
+#if NET40
+				typeBuilder.CreateType();
+#else
+	            typeBuilder.CreateTypeInfo();
+#endif
+			}
         }
 
 

@@ -11,7 +11,8 @@
     <RootNamespace>Pixel3D.Serialization.Demo</RootNamespace>
     <AssemblyName>Pixel3D.Serialization.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -54,9 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Pixel3D.Serialization\Pixel3D.Serialization.csproj">
-      <Project>{A57814B6-1D0B-48BD-B512-BF8CE9000282}</Project>
+      <Project>{7c16c8af-2f2b-4f90-ba86-bb68b50f25eb}</Project>
       <Name>Pixel3D.Serialization</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,6 +7,12 @@ using Pixel3D.Serialization.BuiltIn;
 using Pixel3D.Serialization.BuiltIn.DelegateHandling;
 using Pixel3D.Serialization.Discovery;
 
+#if NET40 || NET45 || NET462
+#else
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+#endif
+
 namespace Pixel3D.Serialization.Generator
 {
     internal static class GeneratorSequence
@@ -26,7 +32,7 @@ namespace Pixel3D.Serialization.Generator
                 baseLocation = System.IO.Path.GetDirectoryName(baseLocation);
 
 
-            #region Initial Reporting - Assembly Info
+#region Initial Reporting - Assembly Info
 
             if(reports != null)
             {
@@ -42,10 +48,10 @@ namespace Pixel3D.Serialization.Generator
                 reports.Log.WriteLine();
             }
 
-            #endregion
+#endregion
 
 
-            #region Search for [SerializationRoot] attributes
+#region Search for [SerializationRoot] attributes
 
             HashSet<Type> rootTypes = new HashSet<Type>();
             foreach(var assembly in assemblies)
@@ -72,10 +78,10 @@ namespace Pixel3D.Serialization.Generator
                 reports.Log.WriteLine();
             }
 
-            #endregion
+#endregion
 
 
-            #region Custom Method Discovery
+#region Custom Method Discovery
 
             if(reports != null)
                 reports.Log.WriteLine("Running custom method discovery");
@@ -89,10 +95,10 @@ namespace Pixel3D.Serialization.Generator
             // Attach hard-coded array serializer methods:
             customMethods = SerializationMethodProviders.Combine(SerializeArray.CreateSerializationMethodProviders(), customMethods);
 
-            #endregion
+#endregion
 
 
-            #region Type Discovery - First Pass
+#region Type Discovery - First Pass
 
             TypeDiscovery td = new TypeDiscovery(customMethods, assemblies);
 
@@ -108,10 +114,10 @@ namespace Pixel3D.Serialization.Generator
             td.DiscoverFromRoots(rootTypes,
                     reports != null ? reports.TypeDiscovery : null, reports != null ? reports.Error : null);
 
-            #endregion
+#endregion
 
 
-            #region Delegate Discovery and Type Discovery Second Pass
+#region Delegate Discovery and Type Discovery Second Pass
 
             List<DelegateUsage> delegateDiscoveryResult = null;
             IEnumerable<Type> allDelegateTargetTypes = null;
@@ -120,7 +126,7 @@ namespace Pixel3D.Serialization.Generator
             {
                 System.Diagnostics.Debug.WriteLine("IMPORTANT: Serializer generator is doing delegate discovery! May be undesireable.");
 
-                #region Delegate Discovery
+#region Delegate Discovery
 
                 if(reports != null)
                 {
@@ -148,10 +154,10 @@ namespace Pixel3D.Serialization.Generator
                     DelegateDiscovery.WriteDelegateUsageGrouped(delegateDiscoveryResult, reports.DelegateDiscoveryGrouped);
                 }
 
-                #endregion
+#endregion
 
 
-                #region Type Discovery - Second Pass
+#region Type Discovery - Second Pass
 
                 if(reports != null)
                 {
@@ -169,7 +175,7 @@ namespace Pixel3D.Serialization.Generator
                 td.DiscoverFromRoots(allDelegateTargetTypes,
                         reports != null ? reports.TypeDiscovery : null, reports != null ? reports.Error : null);
 
-                #endregion
+#endregion
             }
             else
             {
@@ -179,10 +185,10 @@ namespace Pixel3D.Serialization.Generator
                 }
             }
 
-            #endregion
+#endregion
 
 
-            #region Type Classification
+#region Type Classification
 
             if(reports != null)
                 reports.Log.WriteLine("Running type classification");
@@ -197,10 +203,10 @@ namespace Pixel3D.Serialization.Generator
                 CustomMethodDiscovery.CheckForDerivedCustomInitializers(customMethods.ReferenceTypeInitializeMethods, tc.ReferenceTypes, reports.Error);
             }
 
-            #endregion
+#endregion
 
 
-            #region Delegate Classification
+#region Delegate Classification
 
             Dictionary<Type, DelegateTypeInfo> delegateTypeTable = null;
 
@@ -231,17 +237,17 @@ namespace Pixel3D.Serialization.Generator
                 
             }
 
-            #endregion
+#endregion
 
 
-            #region Module Table
+#region Module Table
 
             List<Module> moduleTable = td.Assemblies.Where(a => a.IsOurAssembly(baseLocation)).SelectMany(a => a.GetModules()).NetworkOrder(module => module.Name).ToList();
 
-            #endregion
+#endregion
 
 
-            #region Report Final Log Info
+#region Report Final Log Info
 
             if(reports != null)
             {
@@ -319,30 +325,47 @@ namespace Pixel3D.Serialization.Generator
                 reports.Log.WriteLine();
             }
 
-            #endregion
+#endregion
 
 
-            #region Generate Assembly
+#region Generate Assembly
 
             var serializerMethodGenerator = new SerializerMethodGenerator(tc, customMethods, allDelegateTargetTypes);
             GeneratorResult generatorResult;
 
+
+
             if(createAssembly)
             {
-                if(reports != null)
-                    reports.Log.WriteLine("Generating assembly...");
+	            if (reports != null)
+		            reports.Log.WriteLine("Generating assembly...");
 
-                AssemblyName an = new AssemblyName(outputAssemblyName);
+#if NET40 || NET45 || NET462
+				AssemblyName an = new AssemblyName(outputAssemblyName);
                 AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
                 ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(outputAssemblyName + ".dll");
-
                 var methodCreatorCreator = new MethodBuilderCreatorCreator(moduleBuilder, "GenSerialize");
                 generatorResult = serializerMethodGenerator.Generate(methodCreatorCreator);
-
                 methodCreatorCreator.Finish();
                 assemblyBuilder.Save(outputAssemblyName + ".dll");
+#else
+				// https://github.com/dotnet/roslyn/issues/10881
+				// https://github.com/dotnet/corert/tree/master/src/ILVerify
+				throw new NotSupportedException("Cannot convert dynamic assembly to disk bytes in Roslyn without parsing a syntax tree!");
+
+				AssemblyName an = new AssemblyName(outputAssemblyName);
+	            AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(an, AssemblyBuilderAccess.RunAndCollect);
+	            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(outputAssemblyName + ".dll");
+	            var methodCreatorCreator = new MethodBuilderCreatorCreator(moduleBuilder, "GenSerialize");
+	            generatorResult = serializerMethodGenerator.Generate(methodCreatorCreator);
+	            methodCreatorCreator.Finish();
+
+	            Assembly assembly = moduleBuilder.Assembly;
+				var compilation = CSharpCompilation.Create(outputAssemblyName);
+#endif
+
             }
-            else
+			else
             {
                 if(reports != null)
                     reports.Log.WriteLine("Generating dynamic methods...");
@@ -358,7 +381,7 @@ namespace Pixel3D.Serialization.Generator
                 reports.Log.WriteLine("Done!");
             }
 
-            #endregion
+#endregion
 
             generatorResult.delegateTypeTable = delegateTypeTable;
             generatorResult.moduleTable = moduleTable;
