@@ -273,7 +273,9 @@ namespace Pixel3D.Serialization.Generator.ILWriting
 
         private static bool IsIgnoredField(FieldInfo field)
         {
-            return TypeDiscovery.IsIgnoredType(field.FieldType) || field.GetCustomAttributes(typeof(SerializationIgnoreAttribute), true).Length != 0;
+            return TypeDiscovery.IsIgnoredType(field.FieldType) || 
+                   field.GetCustomAttributes(typeof(SerializationIgnoreAttribute), true).Length != 0 ||
+                   field.GetCustomAttributes(typeof(NonSerializedAttribute), true).Length != 0;
         }
 
         private static void GenerateSerializeField(Type type, FieldInfo field, ILGenerator il, ILGenContext context)

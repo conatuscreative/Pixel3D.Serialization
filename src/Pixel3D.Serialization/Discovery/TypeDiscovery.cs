@@ -243,7 +243,8 @@ namespace Pixel3D.Serialization.Discovery
             {
                 foreach(var fieldInfo in type.GetFields(allInstanceDeclared))
                 {
-                    if(fieldInfo.GetCustomAttributes(typeof(SerializationIgnoreAttribute), true).Length == 0)
+                    if(fieldInfo.GetCustomAttributes(typeof(SerializationIgnoreAttribute), true).Length == 0 &&
+                       fieldInfo.GetCustomAttributes(typeof(NonSerializedAttribute), true).Length == 0)
                     {
                         FoundType(fieldInfo.FieldType, true, foundFieldTypes, new Context(errors, "type", type, "field", fieldInfo));
                     }
