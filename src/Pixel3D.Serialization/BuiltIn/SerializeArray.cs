@@ -111,14 +111,14 @@ namespace Pixel3D.Serialization.BuiltIn
 
 		public static SerializationMethodProviders CreateSerializationMethodProviders()
 		{
-			var serialize =
+			var serialize = new[]
 			{
 				typeof(SerializeArray).GetMethod("SerializeArrayField"),
 				typeof(SerializeArray).GetMethod("SerializeArray2DField"),
 				typeof(SerializeArray).GetMethod("SerializeArray3DField")
 			};
 
-			var deserialize =
+			var deserialize = new[]
 			{
 				typeof(SerializeArray).GetMethod("DeserializeArrayField"),
 				typeof(SerializeArray).GetMethod("DeserializeArray2DField"),

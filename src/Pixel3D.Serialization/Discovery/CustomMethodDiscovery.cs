@@ -44,8 +44,8 @@ namespace Pixel3D.Serialization.Discovery
 
 			#region Handle [CustomSerializer]
 
-			var customSerializerParameters = {typeof(SerializeContext), typeof(BinaryWriter), null};
-			var customDeserializerParameters = {typeof(DeserializeContext), typeof(BinaryReader), null};
+			var customSerializerParameters = new[] { typeof(SerializeContext), typeof(BinaryWriter), null };
+			var customDeserializerParameters = new[] { typeof(DeserializeContext), typeof(BinaryReader), null };
 
 			foreach (var method in customSerializerCandidates)
 			{
