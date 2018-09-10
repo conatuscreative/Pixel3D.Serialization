@@ -1,59 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection.Emit;
+﻿// Copyright © Conatus Creative, Inc. All rights reserved.
+// Licensed under the Apache 2.0 License. See LICENSE.md in the project root for license terms.
 
 namespace Pixel3D.Serialization.Generator
 {
-    abstract class MethodCreatorCreator // <- yes, I went there.
-    {
-        public abstract MethodCreator Create(string containingTypeName);
-    }
-
-
-    class DynamicMethodCreatorCreator : MethodCreatorCreator
-    {
-        public override MethodCreator Create(string containingTypeName)
-        {
-            return new DynamicMethodCreator();
-        }
-    }
-
-
-    class MethodBuilderCreatorCreator : MethodCreatorCreator
-    {
-        ModuleBuilder moduleBuilder;
-        string @namespace;
-
-        public MethodBuilderCreatorCreator(ModuleBuilder moduleBuilder, string @namespace)
-        {
-            this.moduleBuilder = moduleBuilder;
-            this.@namespace = @namespace;
-        }
-
-
-        List<TypeBuilder> typeBuilders = new List<TypeBuilder>();
-
-        public void Finish()
-        {
-            foreach(var typeBuilder in typeBuilders)
-            {
-#if NET40
-				typeBuilder.CreateType();
-#else
-	            typeBuilder.CreateTypeInfo();
-#endif
-			}
-        }
-
-
-        public override MethodCreator Create(string containingTypeName)
-        {
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(@namespace + "." + containingTypeName);
-            typeBuilders.Add(typeBuilder);
-            return new MethodBuilderCreator(typeBuilder);
-        }
-
-    }
+	internal abstract class MethodCreatorCreator // <- yes, I went there.
+	{
+		public abstract MethodCreator Create(string containingTypeName);
+	}
 }
